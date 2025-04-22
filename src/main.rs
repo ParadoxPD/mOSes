@@ -1,23 +1,26 @@
 #![no_std]
 #![no_main]
 
+use bootloader::{BootInfo, entry_point};
 use core::panic::PanicInfo;
 
-#[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
-    loop {}
-}
+entry_point!(_start);
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
-    let uart = 0x9000000 as *mut u8;
-    let hello = b"Hello World\n";
+fn _start(_boot_info: &'static BootInfo) -> ! {
+    let vga_buffer: *mut u8 = 0xb8000 as *mut u8;
+    let message = b"Hello World!!!!\n";
 
-    for &byte in hello {
+    for (i, &byte) in message.iter().enumerate() {
         unsafe {
-            *uart = byte;
+            *vga_buffer.offset((i * 2) as isize) = byte;
+            *vga_buffer.offset((i * 2 + 1) as isize) = 0x0f;
         }
     }
 
+    loop {}
+}
+
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }

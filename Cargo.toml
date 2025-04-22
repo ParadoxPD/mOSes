@@ -4,11 +4,15 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bootloader = "0.9.31"
+
+[build-dependencies]
+bootimage = "0.10.3"
 
 [profile.dev]
 panic = "abort"
 
-[profile,release]
-panix = "abort"
+[profile.release]
+panic = "abort"
 
 
