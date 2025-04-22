@@ -1,9 +1,13 @@
 #![no_std]
 #![no_main]
 
-use bootloader::{BootInfo, entry_point};
 use core::panic::PanicInfo;
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! {
+    loop {}
+}
 
+use bootloader::{BootInfo, entry_point};
 entry_point!(_start);
 
 fn _start(_boot_info: &'static BootInfo) -> ! {
@@ -17,10 +21,5 @@ fn _start(_boot_info: &'static BootInfo) -> ! {
         }
     }
 
-    loop {}
-}
-
-#[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }

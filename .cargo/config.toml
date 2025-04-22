@@ -1,6 +1,7 @@
 [build]
-target = "x86_64-unknown-none"
+target = "x86_64-mOSes.json"
 
 [unstable]
-build-std = ["core"]
+build-std-features = ["compiler-builtins-mem"]
+build-std = ["core", "compiler_builtins"]
 
